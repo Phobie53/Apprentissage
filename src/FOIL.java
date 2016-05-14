@@ -2,7 +2,8 @@ import java.lang.Math;
 import java.util.ArrayList;
 
 // TODO: J'ai mis des listes de String, mais à voir s'il ne faut pas plutôt des listes d'objets "Règle"
-public class FOIL {
+public class FOIL 
+{
 
 	// TODO: écrire le code correspondant aux commentaires orphelins
 	public ArrayList<String> FOIL(ArrayList<String> pos, ArrayList<String> neg)

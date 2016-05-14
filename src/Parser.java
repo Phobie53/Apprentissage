@@ -1,16 +1,26 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Parser {
+public class Parser 
+{
 
+	HashMap<String,String[]> attributes;
+	ArrayList<String[]> data;
 	
 	public Parser(String filename)
 	{
+		this.attributes = new HashMap<String,String[]>();
+		this.data = new ArrayList<String[]>();
 		Scanner scanner;
-		try {
+		try 
+		{
 			scanner = new Scanner(new FileReader(filename));
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
@@ -18,6 +28,7 @@ public class Parser {
 		
 		 boolean isDataSection = false;
 		 String line = null;
+		 
 		 while (scanner.hasNextLine()) 
 		 {
 		     line = scanner.nextLine();
@@ -25,7 +36,8 @@ public class Parser {
 		     
 		     // Avant la section @data
 		     if(!isDataSection)
-		     {		    	 
+		     {		    	
+		    	 // Si c'est un attribut
 			     if(line.startsWith("@attribute"))
 			     {
 				     String[] words = line.split(" ");
@@ -45,8 +57,7 @@ public class Parser {
 			    		 System.out.println("Valeur N°" + i + " " + values[i]);
 			    	 }
 			    	 System.out.println();
-
-			    	 
+			    	 attributes.put(name, values);			    	 
 			     }
 			     else if(line.startsWith("@data"))
 			     {
@@ -63,6 +74,7 @@ public class Parser {
 		    	 {
 		    		 System.out.println("Valeur N°" + i + " " + words[i]);
 		    	 }
+		    	 data.add(words);
 		     }
 		 }
 
@@ -70,8 +82,6 @@ public class Parser {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Parser p = new Parser("data/weather.nominal.arff");
-
 	}
 
 }
