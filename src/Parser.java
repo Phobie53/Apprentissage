@@ -15,42 +15,55 @@ public class Parser {
 			e.printStackTrace();
 			return;
 		}
+		
+		 boolean isDataSection = false;
 		 String line = null;
 		 while (scanner.hasNextLine()) 
 		 {
 		     line = scanner.nextLine();
-		     String[] words = line.split(" ");
 		     //System.out.println("Ligne = " + line);
 		     
-		     if(line.startsWith("@attribute"))
+		     // Avant la section @data
+		     if(!isDataSection)
+		     {		    	 
+			     if(line.startsWith("@attribute"))
+			     {
+				     String[] words = line.split(" ");
+			    	 String withoutPrefix = line.substring(11);
+			    	 int endOfAttributeName = withoutPrefix.indexOf(' ');
+			    	 
+			    	 String name = withoutPrefix.substring(0, endOfAttributeName);
+			    	 System.out.println("Nom = " + name);
+			    	 
+			    	 String valuesString = withoutPrefix.substring(endOfAttributeName + 1, withoutPrefix.length());
+			    	 valuesString = valuesString.replace("{", "");
+			    	 valuesString = valuesString.replace("}", "");
+			    	 
+			    	 String[] values = valuesString.split(", ");
+			    	 for(int i =0; i < values.length; i++)
+			    	 {
+			    		 System.out.println("Valeur N°" + i + " " + values[i]);
+			    	 }
+			    	 System.out.println();
+
+			    	 
+			     }
+			     else if(line.startsWith("@data"))
+			     {
+			    	 isDataSection = true;
+			    	 System.out.println();
+			    	 System.out.println("Section Data");			    	 
+			     }
+		     }
+		     // Après le @data
+		     else
 		     {
-		    	 String withoutPrefix = line.substring(11);
-		    	 int endOfAttributeName = withoutPrefix.indexOf(' ');
-		    	 
-		    	 String name = withoutPrefix.substring(0, endOfAttributeName);
-		    	 String valuesString = withoutPrefix.substring(endOfAttributeName + 1, withoutPrefix.length());
-		    	 valuesString = valuesString.replace("{", "");
-		    	 valuesString = valuesString.replace("}", "");
-		    	 
-		    	 String[] values = valuesString.split(", ");
-		    	 for(int i =0; i < values.length; i++)
+			     String[] words = line.split(",");
+		    	 for(int i =0; i < words.length; i++)
 		    	 {
-		    		 System.out.println("Valeur N°=" + i + " " + values[i]);
+		    		 System.out.println("Valeur N°" + i + " " + words[i]);
 		    	 }
-		    	 
-		    	 System.out.println("Nom = " + name);
-		    	 
 		     }
-		     else if(line.startsWith("@data"))
-		     {
-		    	 
-		     }
-		     
-		     for(int i = 0; i < words.length ; i++)
-		     {
-			     //System.out.println("Mot N°" + i + " = " + words[i]);
-		     }
-		     //System.out.println();
 		 }
 
 	}
