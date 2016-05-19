@@ -1,5 +1,6 @@
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // TODO: J'ai mis des listes de String, mais à voir s'il ne faut pas plutôt des listes d'objets "Règle"
 public class FOIL 
@@ -12,7 +13,7 @@ public class FOIL
 		
 		while(pos.size() != 0)	// Tant que Pos n'est pas vide
 		{
-			ArrayList<String> conditions_regle;	// Conditions_Règle <- vide
+			HashMap<String,String> conditions_regle;	// Conditions_Règle <- vide
 			ArrayList<String> neg2 = neg;		// Neg2 <- Neg
 			ArrayList<String> pos2 = pos;		// Pos2 <- Pos
 			
@@ -33,29 +34,40 @@ public class FOIL
 		return regles;	//Retourner l'ensemble Règles	
 	}
 	
-	public double gain(String L, ArrayList<String> pos, ArrayList<String> neg)
+	public double gain(HashMap<String,String> L, ArrayList<String> pos, ArrayList<String> neg)
 	{
 		int P = pos.size();
 		int N = neg.size();
 		
-		// TODO: il faut définir les bonnes valeurs pour p et n
-		// p = nombre d'exemples dans Pos qui satisfont le literral L
-		// n = nombre d'exemples dans Neg qui satisfont le literral L
-		int p = 0;
-		int n = 0;
+		int p = nombreExemplesSatisfait(L, pos);	// p = nombre d'exemples dans Pos qui satisfont le literral L
+		int n = nombreExemplesSatisfait(L, neg);	// n = nombre d'exemples dans Neg qui satisfont le literral L
 		
 		return (p*(Math.log(p/(p+n)) - Math.log(P/(P+N))));
 	}
 	
-	public int nombreExemplesSatisfait(String litteral, ArrayList<String> exemples)
+	private static int nombreExemplesSatisfait(HashMap<String,String> litteral, ArrayList<String> exemples)
 	{
-		// TODO: il faut définir la bonne valeur pour le return
-		return exemples.size();
+		int nombre = 0;
+		for(int i = 0; i < exemples.size(); i++)
+		{
+			if(litteral.values().toArray()[0] ==  exemples.get(i))
+				nombre++;				
+		}	
+		return nombre;
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		FOIL f = new FOIL();
+		HashMap<String,String> h = new HashMap<String,String>();
+		h.put("temperature", "hot");
+		ArrayList<String> dataArray = new  ArrayList<String>();
+		dataArray.add("mild");
+		dataArray.add("hot");
+		dataArray.add("hot");
+		 
+		int valeurs = nombreExemplesSatisfait(h, dataArray);
+		System.out.println(valeurs);
 	}
 
 }
