@@ -7,13 +7,17 @@ import java.util.HashMap;
 public class Parser 
 {
 
-	HashMap<String,String[]> attributes;
-	ArrayList<String[]> data;
+	ArrayList<Attribute> attributes;
+	ArrayList<Data> data;
+	ArrayList<Data> pos;
+	ArrayList<Data> neg;
 	
 	public Parser(String filename)
 	{
-		this.attributes = new HashMap<String,String[]>();
-		this.data = new ArrayList<String[]>();
+		this.attributes = new ArrayList<Attribute>();
+		this.data = new ArrayList<Data>();
+		this.pos = new ArrayList<Data>();
+		this.neg = new ArrayList<Data>();
 		Scanner scanner;
 		try 
 		{
@@ -56,8 +60,8 @@ public class Parser
 			    	 {
 			    		 System.out.println("Valeur N°" + i + " " + values[i]);
 			    	 }
-			    	 System.out.println();
-			    	 attributes.put(name, values);			    	 
+			    	 Attribute attr = new Attribute(name, values);
+			    	 this.attributes.add(attr);		    	 
 			     }
 			     else if(line.startsWith("@data"))
 			     {
@@ -74,7 +78,12 @@ public class Parser
 		    	 {
 		    		 System.out.println("Valeur N°" + i + " " + words[i]);
 		    	 }
-		    	 data.add(words);
+		    	 Data d = new Data(this.attributes, words);
+		    	 data.add(d);
+		    	 if(words[words.length - 1] == "yes")
+		    		 pos.add(d);
+		    	 else
+		    		 neg.add(d);
 		     }
 		 }
 
@@ -82,6 +91,7 @@ public class Parser
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Parser p = new Parser("data/weather.nominal.arff");
 	}
 
 }
