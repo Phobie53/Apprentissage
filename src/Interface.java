@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.*;
@@ -21,7 +23,12 @@ public class Interface {
         final JButton btnFichier = new JButton("Fichier");
         final JFileChooser fileChooser = new JFileChooser();
         final JTextField txtFichier = new JTextField();
+        final JComboBox<Attribute> comboAttr = new JComboBox();
+        final JComboBox<String> comboVal = new JComboBox();
 
+        comboAttr.setVisible(false);
+        comboVal.setVisible(false);
+        
 //        Mise à jours de leurs attributs
         txtFichier.setPreferredSize(new Dimension(300, 26));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF FILES", "arff", "arff");
@@ -41,13 +48,30 @@ public class Interface {
 	                System.out.println("");
 
 	        		Parser p = new Parser(file.getAbsolutePath());
+	        		
+	        		comboAttr.setVisible(true);
+	        		for (Attribute attr : p.attributes) {
+	        			comboAttr.addItem(attr);
+					}        		
 	            }
             }
         });
         
+        // TODO : Ajouter les valeurs
+        comboAttr.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				comboVal.removeAllItems();
+				//comboVal.addItem(e);
+				comboVal.setVisible(true);
+				System.out.println(e.getItem());
+			}
+		});
+        
 //        Ajout des composants au panel
         panel.add(btnFichier, BorderLayout.NORTH);
         panel.add(txtFichier, BorderLayout.NORTH);
+        panel.add(comboAttr, BorderLayout.CENTER);
+        panel.add(comboVal, BorderLayout.CENTER);
         
 //        Ajout du panel dans la frame
         frame.getContentPane().add(panel);

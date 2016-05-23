@@ -34,5 +34,9 @@ public class Attribute {
 	{
 		return this.name;
 	}
+	
+	public String toString() {
+		return this.name;
+	}
 
 }
