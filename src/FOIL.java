@@ -9,9 +9,7 @@ public class FOIL
 
 	// TODO: écrire le code correspondant aux commentaires orphelins
 	public FOIL(ArrayList<Data> pos, ArrayList<Data> neg, ArrayList<Fait> litteraux)
-	{		
-		//Fait litteral = pos.get(0).getLitteral();
-		
+	{				
 		ArrayList<Regle> regles = new ArrayList<Regle>();	// Règles <- vide	
 		
 		while(pos.size() != 0)	// Tant que Pos n'est pas vide
@@ -23,9 +21,19 @@ public class FOIL
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
 				Fait litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
-				System.out.println("Litteral max = " + litteralMax.toString());
+				System.out.println("Litteral max => " + litteralMax.toString());
 				conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
 				// Retirer de Neg2 tous les exemples qui ne satisfont pas L
+				if(neg2.equals(retirerExemplesNonSatisfaisant(neg2, litteralMax)))
+				{
+					System.out.println("Erreur neg 2");
+					return;
+				}
+				if(pos2.equals(retirerExemplesNonSatisfaisant(pos2, litteralMax)))
+				{
+					System.out.println("Erreur pos 2");
+					return;
+				}
 				neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
 				// Retirer de Pos2 tous les exemples qui ne satisfont pas L
 				pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
@@ -36,7 +44,10 @@ public class FOIL
 			Fait resultat = new Fait("play","yes");
 			regles.add(new Regle(conditions_regle, resultat));
 			// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
-			
+			for(int i = 0; i < conditions_regle.size(); i++)
+			{
+				pos = retirerExemplesNonSatisfaisant(pos, conditions_regle.get(i));
+			}
 		} 	// Fin tant que		
 
 		this.regles = regles;	//Retourner l'ensemble Règles	
