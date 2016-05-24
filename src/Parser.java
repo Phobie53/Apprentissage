@@ -82,10 +82,17 @@ public class Parser
 		    	 }
 		    	 Data d = new Data(this.attributes, words);
 		    	 data.add(d);
-		    	 if(words[words.length - 1] == "yes")
+		    	 if(words[words.length - 1].equals("yes"))
+		    	 {
 		    		 pos.add(d);
+		    		 //System.out.println("Yes = " + words[words.length - 1]);
+		    	 }
 		    	 else
+		    	 {
+		    		 //System.out.println("No = " + words[words.length - 1]);
 		    		 neg.add(d);
+		    	 }
+
 		     }
 		 }
 

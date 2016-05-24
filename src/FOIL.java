@@ -23,6 +23,7 @@ public class FOIL
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
 				Fait litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
+				System.out.println("Litteral max = " + litteralMax.toString());
 				conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
 				// Retirer de Neg2 tous les exemples qui ne satisfont pas L
 				neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
