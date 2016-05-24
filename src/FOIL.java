@@ -50,9 +50,9 @@ public class FOIL
 			// Si l'exemple satisfait le litteral, on ajoute l'exemple au nouvel ensemble
 			for(int j = 0; j < exemples.get(i).getValues().size(); j++)
 			{
-				if(litteral.condition == exemples.get(i).getAttributes().get(i).getName())
+				if(litteral.condition.equals(exemples.get(i).getAttributes().get(j).getName()))
 				{
-					if(litteral.valeur == exemples.get(i).getValues().get(i))
+					if(litteral.valeur == exemples.get(i).getValues().get(j))
 						exemplesSatisfaisants.add(exemples.get(i));						
 				}
 			}
@@ -78,7 +78,7 @@ public class FOIL
 		{
 			for(int j = 0; j < exemples.get(i).getValues().size(); j++)
 			{
-				if(litteral.getValeur() == exemples.get(i).getValues().get(j))
+				if(litteral.getValeur().equals(exemples.get(i).getValues().get(j)))
 					nombre++;				
 			}			
 		}	
