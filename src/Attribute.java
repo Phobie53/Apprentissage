@@ -35,6 +35,11 @@ public class Attribute {
 		return this.name;
 	}
 	
+	public ArrayList<String> getValues()
+	{
+		return this.values;
+	}
+	
 	public String toString() {
 		return this.name;
 	}

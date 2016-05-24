@@ -11,6 +11,7 @@ public class Parser
 	ArrayList<Data> data;
 	ArrayList<Data> pos;
 	ArrayList<Data> neg;
+	ArrayList<Fait> litteraux;
 	
 	public Parser(String filename)
 	{
@@ -18,6 +19,7 @@ public class Parser
 		this.data = new ArrayList<Data>();
 		this.pos = new ArrayList<Data>();
 		this.neg = new ArrayList<Data>();
+		this.litteraux = new ArrayList<Fait>();
 		Scanner scanner;
 		try 
 		{
@@ -87,6 +89,15 @@ public class Parser
 		     }
 		 }
 
+		 // Création de la liste des litteraux
+		 for(int i = 0; i < this.attributes.size() - 1; i++)
+		 {
+			 Attribute attribute = this.attributes.get(i);
+			 for(int j = 0; j < attribute.getValues().size(); j++)
+			 {
+	    		 this.litteraux.add(new Fait(attribute.getName(), attribute.getValues().get(j)));
+			 }
+		 }
 	}
 	
 	public static void main(String[] args) {

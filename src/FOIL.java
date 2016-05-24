@@ -8,7 +8,7 @@ public class FOIL
 	ArrayList<Regle> regles;
 
 	// TODO: écrire le code correspondant aux commentaires orphelins
-	public FOIL(ArrayList<Data> pos, ArrayList<Data> neg)
+	public FOIL(ArrayList<Data> pos, ArrayList<Data> neg, ArrayList<Fait> litteraux)
 	{		
 		//Fait litteral = pos.get(0).getLitteral();
 		
@@ -22,7 +22,7 @@ public class FOIL
 			
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
-				Fait litteralMax = litteralMax(new ArrayList<Fait>(), pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
+				Fait litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
 				conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
 				// Retirer de Neg2 tous les exemples qui ne satisfont pas L
 				neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
