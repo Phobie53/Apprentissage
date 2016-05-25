@@ -19,7 +19,7 @@ public class Regle
 		String regle = "SI ";
 		for(int i = 0; i < this.conditions.size(); i++)
 		{
-			if( (i != 0) || (i != this.conditions.size()-1))
+			if( (i != 0) && (i != this.conditions.size()))
 				regle += " ET ";
 			regle += this.conditions.get(i).toString();
 		}

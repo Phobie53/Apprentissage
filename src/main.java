@@ -8,11 +8,11 @@ public class main {
 		Parser p = new Parser("data/weather.nominal.arff");
 		System.out.println(p.pos.size() + " " + p.neg.size() + " " + p.litteraux.size());
 
-		FOIL f = new FOIL(p.pos, p.neg, p.litteraux);
+		FOIL f = new FOIL(p.pos, p.neg, p.litteraux, new Fait("play","yes"));
 
 		for(int i = 0; i < f.regles.size(); i++)
 		{
-			System.out.println("Règle N°" + i + " = "+ f.regles.get(i).toString());
+			//System.out.println("Règle N°" + (i+1) + ": "+ f.regles.get(i).toString());
 		}
 		
 		//TODO : Il reste à trouver comment définir proprement pos et neg

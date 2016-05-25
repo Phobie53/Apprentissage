@@ -1,0 +1,31 @@
+[1mdiff --git a/src/Parser.java b/src/Parser.java[m
+[1mindex 4c32f37..d0ca3d3 100644[m
+[1m--- a/src/Parser.java[m
+[1m+++ b/src/Parser.java[m
+[36m@@ -12,6 +12,7 @@[m [mpublic class Parser[m
+ 	ArrayList<Data> pos;[m
+ 	ArrayList<Data> neg;[m
+ 	ArrayList<Fait> litteraux;[m
+[32m+[m	[32mFait classTrue;[m
+ 	[m
+ 	public Parser(String filename)[m
+ 	{[m
+[36m@@ -105,6 +106,18 @@[m [mpublic class Parser[m
+ 	    		 this.litteraux.add(new Fait(attribute.getName(), attribute.getValues().get(j)));[m
+ 			 }[m
+ 		 }[m
+[32m+[m[41m		 [m
+[32m+[m		[32m // On récupère le fait qui sera a validé exemple: "play = yes"[m
+[32m+[m		[32m classTrue = getClassOfAttributes();[m
+[32m+[m	[32m}[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic Fait getClassOfAttributes()[m
+[32m+[m	[32m{[m
+[32m+[m		[32mString condition = this.attributes.get(this.attributes.size()-1).getName();[m
+[32m+[m		[32mString valeur = this.attributes.get(this.attributes.size()-1).getValues().get(this.attributes.get(this.attributes.size()-1).getValues().size()-1);[m
+[32m+[m[41m		[m
+[32m+[m		[32mFait fait = new Fait(condition, valeur);[m
+[32m+[m		[32mreturn fait;[m
+ 	}[m
+ 	[m
+ 	public static void main(String[] args) {[m

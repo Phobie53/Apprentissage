@@ -8,10 +8,10 @@ public class FOIL
 	ArrayList<Regle> regles;
 
 	// TODO: écrire le code correspondant aux commentaires orphelins
-	public FOIL(ArrayList<Data> pos, ArrayList<Data> neg, ArrayList<Fait> litteraux)
+	public FOIL(ArrayList<Data> pos, ArrayList<Data> neg, ArrayList<Fait> litteraux, Fait trueClass)
 	{				
 		ArrayList<Regle> regles = new ArrayList<Regle>();	// Règles <- vide	
-		
+		int indiceBoucle = 1;
 		while(pos.size() != 0)	// Tant que Pos n'est pas vide
 		{
 			ArrayList<Fait> conditions_regle = new ArrayList<Fait>();	// Conditions_Règle <- vide
@@ -21,19 +21,10 @@ public class FOIL
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
 				Fait litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
+				litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
 				System.out.println("Litteral max => " + litteralMax.toString());
 				conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
 				// Retirer de Neg2 tous les exemples qui ne satisfont pas L
-				if(neg2.equals(retirerExemplesNonSatisfaisant(neg2, litteralMax)))
-				{
-					System.out.println("Erreur neg 2");
-					return;
-				}
-				if(pos2.equals(retirerExemplesNonSatisfaisant(pos2, litteralMax)))
-				{
-					System.out.println("Erreur pos 2");
-					return;
-				}
 				neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
 				// Retirer de Pos2 tous les exemples qui ne satisfont pas L
 				pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
@@ -41,16 +32,37 @@ public class FOIL
 			}	// Fin tant que
 			
 			// Ajouter à Règles la règle (C <- Conditions_Règle)
-			Fait resultat = new Fait("play","yes");
-			regles.add(new Regle(conditions_regle, resultat));
+			Regle newRegle = new Regle(conditions_regle, trueClass);
+			regles.add(newRegle);
 			// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
+			int taillePosDebut = pos.size();
 			for(int i = 0; i < conditions_regle.size(); i++)
 			{
-				pos = retirerExemplesNonSatisfaisant(pos, conditions_regle.get(i));
+				pos = retirerExemplesSatisfaisant(pos, conditions_regle.get(i));
 			}
+			int taillePosFin = pos.size();
+			System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString() + " | " + (taillePosDebut-taillePosFin) + " exemple(s) couvert(s)");
 		} 	// Fin tant que		
 
 		this.regles = regles;	//Retourner l'ensemble Règles	
+	}
+
+	public ArrayList<Data> retirerExemplesSatisfaisant(ArrayList<Data> exemples, Fait litteral)
+	{
+		ArrayList<Data> exemplesNonSatisfaisants = new ArrayList<Data>();
+		for(int i = 0; i < exemples.size(); i++)
+		{
+			// Si l'exemple satisfait le litteral, on ajoute l'exemple au nouvel ensemble
+			for(int j = 0; j < exemples.get(i).getValues().size(); j++)
+			{
+				if(litteral.condition.equals(exemples.get(i).getAttributes().get(j).getName()))
+				{
+					if(!litteral.valeur.equals(exemples.get(i).getValues().get(j)))
+						exemplesNonSatisfaisants.add(exemples.get(i));						
+				}
+			}
+		}
+		return exemplesNonSatisfaisants;
 	}
 	
 	public ArrayList<Data> retirerExemplesNonSatisfaisant(ArrayList<Data> exemples, Fait litteral)
@@ -63,7 +75,7 @@ public class FOIL
 			{
 				if(litteral.condition.equals(exemples.get(i).getAttributes().get(j).getName()))
 				{
-					if(litteral.valeur == exemples.get(i).getValues().get(j))
+					if(litteral.valeur.equals(exemples.get(i).getValues().get(j)))
 						exemplesSatisfaisants.add(exemples.get(i));						
 				}
 			}
@@ -79,7 +91,11 @@ public class FOIL
 		int p = nombreExemplesSatisfait(L, pos);	// p = nombre d'exemples dans Pos qui satisfont le literral L
 		int n = nombreExemplesSatisfait(L, neg);	// n = nombre d'exemples dans Neg qui satisfont le literral L
 		
-		return (p*(Math.log(p/(p+n)) - Math.log(P/(P+N))));
+		if(p == 0)
+			return -999999999;
+		
+		return p * (Math.log(p / (p + n)) - Math.log(P / (P + N)));
+		
 	}
 	
 	private static int nombreExemplesSatisfait(Fait litteral, ArrayList<Data> exemples)
@@ -90,7 +106,13 @@ public class FOIL
 			for(int j = 0; j < exemples.get(i).getValues().size(); j++)
 			{
 				if(litteral.getValeur().equals(exemples.get(i).getValues().get(j)))
-					nombre++;				
+				{
+					nombre++;	
+					//System.out.println(litteral.getValeur() + " = " + exemples.get(i).getValues().get(j));
+				}
+				//else
+					//System.out.println("Pas égal: " + litteral.getValeur() + " = " + exemples.get(i).getValues().get(j));
+								
 			}			
 		}	
 		return nombre;
@@ -99,12 +121,12 @@ public class FOIL
 	public Fait litteralMax(ArrayList<Fait> L, ArrayList<Data> pos, ArrayList<Data> neg)
 	{
 		int max = 0;
-		double gainMax = 0;
-		double gainTemp = 0;
+		double gainMax = -99999999;
+		double gainTemp = -99999999;
 		for(int i = 0; i < L.size(); i++)
 		{
 			gainTemp = gain(L.get(i), pos, neg);
-			if(gainMax < gainTemp)
+			if(gainMax <= gainTemp)
 			{
 				gainMax = gainTemp;
 				max = i;

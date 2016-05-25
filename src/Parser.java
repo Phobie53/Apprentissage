@@ -12,6 +12,7 @@ public class Parser
 	ArrayList<Data> pos;
 	ArrayList<Data> neg;
 	ArrayList<Fait> litteraux;
+	Fait classTrue;
 	
 	public Parser(String filename)
 	{
@@ -105,6 +106,18 @@ public class Parser
 	    		 this.litteraux.add(new Fait(attribute.getName(), attribute.getValues().get(j)));
 			 }
 		 }
+		 
+		 // On récupère le fait qui sera a validé exemple: "play = yes"
+		 classTrue = getClassOfAttributes();
+	}
+	
+	public Fait getClassOfAttributes()
+	{
+		String condition = this.attributes.get(this.attributes.size()-1).getName();
+		String valeur = this.attributes.get(this.attributes.size()-1).getValues().get(this.attributes.get(this.attributes.size()-1).getValues().size()-1);
+		
+		Fait fait = new Fait(condition, valeur);
+		return fait;
 	}
 	
 	public static void main(String[] args) {
