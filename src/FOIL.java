@@ -138,5 +138,10 @@ public class FOIL
 	public static void main(String[] args) {
 
 	}
+	
+	public ArrayList<Regle> getRegles() {
+		return regles;
+	}
+
 
 }

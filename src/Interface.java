@@ -15,6 +15,8 @@ public class Interface {
 	/**
 	 * @param args
 	 */
+	public static Parser p;
+	public static FOIL f;
 	public static void main(String[] args) {
 		
 //		  Instanciation des composants		
@@ -23,11 +25,10 @@ public class Interface {
         final JButton btnFichier = new JButton("Fichier");
         final JFileChooser fileChooser = new JFileChooser();
         final JTextField txtFichier = new JTextField();
-        final JComboBox<Attribute> comboAttr = new JComboBox();
-        final JComboBox<String> comboVal = new JComboBox();
+        final JComboBox<String> combo = new JComboBox();
+        final JTextPane txtRegles = new JTextPane();
 
-        comboAttr.setVisible(false);
-        comboVal.setVisible(false);
+        combo.setVisible(false);
         
 //        Mise à jours de leurs attributs
         txtFichier.setPreferredSize(new Dimension(300, 26));
@@ -47,35 +48,43 @@ public class Interface {
 	                System.out.println("Path : " + file.getAbsolutePath());
 	                System.out.println("");
 
-	        		Parser p = new Parser(file.getAbsolutePath());
+	        		p = new Parser(file.getAbsolutePath());
 	        		
-	        		comboAttr.setVisible(true);
+	        		combo.setVisible(true);
 	        		for (Attribute attr : p.attributes) {
-	        			comboAttr.addItem(attr);
+	        			for(String val : attr.getValues())
+	        			combo.addItem(attr.toString() + " = " + val);
 					}        		
 	            }
             }
         });
         
-        // TODO : Ajouter les valeurs
-        comboAttr.addItemListener(new ItemListener() {
+//		  Sélection de l'attribut voulu
+        combo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				comboVal.removeAllItems();
-				//comboVal.addItem(e);
-				comboVal.setVisible(true);
-				System.out.println(e.getItem());
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					System.out.println("Sélection de : " + e.getItem());
+					String itemSelected = (String) e.getItem();
+					String[] tab = itemSelected.split("=");
+					f = new FOIL(p.pos, p.neg, p.litteraux, new Fait(tab[0],tab[1]));
+					txtRegles.setText("");
+					for (Regle rgl : f.getRegles()) {
+						txtRegles.setText(txtRegles.getText() + rgl + "\n");
+					}
+					f = null;
+				}
 			}
 		});
         
 //        Ajout des composants au panel
         panel.add(btnFichier, BorderLayout.NORTH);
         panel.add(txtFichier, BorderLayout.NORTH);
-        panel.add(comboAttr, BorderLayout.CENTER);
-        panel.add(comboVal, BorderLayout.CENTER);
+        panel.add(combo, BorderLayout.CENTER);
+        panel.add(txtRegles, BorderLayout.CENTER);
         
 //        Ajout du panel dans la frame
         frame.getContentPane().add(panel);
-        frame.setSize(700, 500);
+        frame.setSize(500, 300);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
