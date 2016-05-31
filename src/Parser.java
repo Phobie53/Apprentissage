@@ -52,7 +52,7 @@ public class Parser
 			    	 int endOfAttributeName = withoutPrefix.indexOf(' ');
 			    	 
 			    	 String name = withoutPrefix.substring(0, endOfAttributeName);
-			    	 System.out.println("Nom = " + name);
+			    	 //System.out.println("Nom = " + name);
 			    	 
 			    	 String valuesString = withoutPrefix.substring(endOfAttributeName + 1, withoutPrefix.length());
 			    	 valuesString = valuesString.replace("{", "");
@@ -67,7 +67,7 @@ public class Parser
 			    		 
 			    	 for(int i =0; i < values.length; i++)
 			    	 {
-			    		 System.out.println("Valeur N°" + i + " " + values[i]);
+			    		 //System.out.println("Valeur N°" + i + " " + values[i]);
 			    	 }
 			    	 Attribute attr = new Attribute(name, values);
 			    	 this.attributes.add(attr);		    	 
@@ -75,8 +75,8 @@ public class Parser
 			     else if(line.startsWith("@data"))
 			     {
 			    	 isDataSection = true;
-			    	 System.out.println();
-			    	 System.out.println("Section Data");			    	 
+			    	 //System.out.println();
+			    	 //System.out.println("Section Data");			    	 
 			     }
 		     }
 		     // Après le @data
@@ -85,7 +85,7 @@ public class Parser
 			     String[] words = line.split(",");
 		    	 for(int i =0; i < words.length; i++)
 		    	 {
-		    		 System.out.println("Valeur N°" + i + " " + words[i]);
+		    		 //System.out.println("Valeur N°" + i + " " + words[i]);
 		    	 }
 		    	 Data d = new Data(this.attributes, words);
 		    	 data.add(d);

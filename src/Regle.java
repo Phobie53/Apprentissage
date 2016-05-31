@@ -7,11 +7,13 @@ public class Regle
 {
 	ArrayList<Fait> conditions = new ArrayList<Fait>();
 	private Fait resultat;
+	private int nombreExemplesCouverts;
 	
-	public Regle(ArrayList<Fait> conditions, Fait resultat) 
+	public Regle(ArrayList<Fait> conditions, Fait resultats) 
 	{
 		this.conditions = conditions;
-		this.resultat = resultat;
+		this.resultat = resultats;
+		this.nombreExemplesCouverts = 0;
 	}
 	
 	public String toString()
@@ -24,7 +26,13 @@ public class Regle
 			regle += this.conditions.get(i).toString();
 		}
 		regle += " ALORS ";
-		regle += resultat.toString();
+		regle += this.resultat.toString();
+		regle += " (";
+		regle += this.nombreExemplesCouverts;
+		if(this.nombreExemplesCouverts == 1)
+			regle += " exemple couvert)";
+		else
+			regle += " exemples couverts)";
 		return regle;
 	}
 	
@@ -81,5 +89,11 @@ public class Regle
 		this.resultat = resultat;
 	}
 	
+	public int getNombreExemplesCouverts() {
+		return this.nombreExemplesCouverts;
+	}
+	public void setNombreExemplesCouverts(int NombreExemplesCouverts) {
+		this.nombreExemplesCouverts = NombreExemplesCouverts;
+	}
 
 }

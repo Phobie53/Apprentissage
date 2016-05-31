@@ -44,7 +44,7 @@ public class FOIL
 				if(litteralMax != null)
 				{
 					litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
-					System.out.println("Litteral max => " + litteralMax.toString());
+					//System.out.println("Litteral max => " + litteralMax.toString());
 					conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
 					// Retirer de Neg2 tous les exemples qui ne satisfont pas L
 					neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
@@ -60,13 +60,14 @@ public class FOIL
 			if(litteralMax != null)
 			{
 				// Ajouter à Règles la règle (C <- Conditions_Règle)
-				Regle newRegle = new Regle(conditions_regle, trueClass);
-				regles.add(newRegle);
+				Regle newRegle = new Regle(conditions_regle, trueClass);				
 				// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
 				int taillePosDebut = pos.size();
 				pos = retirerExemplesSatisfaisant(pos, conditions_regle);
 				int taillePosFin = pos.size();
-				System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString() + " | " + (taillePosDebut-taillePosFin) + " exemple(s) couvert(s)");
+				newRegle.setNombreExemplesCouverts(taillePosDebut-taillePosFin);
+				regles.add(newRegle);
+				System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString());
 			}
 			else
 			{
@@ -167,7 +168,7 @@ public class FOIL
 			{
 				gainMax = gainTemp;
 				max = i;
-				System.out.println("Cond = " + L.get(i).toString() + " | Gain = " +  gainTemp);
+				//System.out.println("Cond = " + L.get(i).toString() + " | Gain = " +  gainTemp);
 			}
 		}
 		if(max == -1)
