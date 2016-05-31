@@ -68,7 +68,7 @@ public class Interface {
 					String itemSelected = (String) e.getItem();
 					String[] tab = itemSelected.split("=");
 					ArrayList<Fait> litt = new ArrayList<Fait>(p.litteraux);
-					f = new FOIL(p.pos, p.neg, litt, new Fait(tab[0],tab[1]));
+					f = new FOIL(p.pos, p.neg, litt, new Fait(tab[0].trim(),tab[1].trim()));
 					txtRegles.setText("");
 					for (Regle rgl : f.getRegles()) {
 						txtRegles.setText(txtRegles.getText() + rgl + "\n");
