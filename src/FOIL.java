@@ -36,10 +36,7 @@ public class FOIL
 			regles.add(newRegle);
 			// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
 			int taillePosDebut = pos.size();
-			for(int i = 0; i < conditions_regle.size(); i++)
-			{
-				pos = retirerExemplesSatisfaisant(pos, conditions_regle.get(i));
-			}
+			pos = retirerExemplesSatisfaisant(pos, conditions_regle);
 			int taillePosFin = pos.size();
 			System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString() + " | " + (taillePosDebut-taillePosFin) + " exemple(s) couvert(s)");
 		} 	// Fin tant que		
@@ -47,20 +44,27 @@ public class FOIL
 		this.regles = regles;	//Retourner l'ensemble Règles	
 	}
 
-	public ArrayList<Data> retirerExemplesSatisfaisant(ArrayList<Data> exemples, Fait litteral)
+	public ArrayList<Data> retirerExemplesSatisfaisant(ArrayList<Data> exemples, ArrayList<Fait> litteral)
 	{
 		ArrayList<Data> exemplesNonSatisfaisants = new ArrayList<Data>();
 		for(int i = 0; i < exemples.size(); i++)
-		{
+		{				
+			boolean toAdd = false;
 			// Si l'exemple satisfait le litteral, on ajoute l'exemple au nouvel ensemble
 			for(int j = 0; j < exemples.get(i).getValues().size(); j++)
 			{
-				if(litteral.condition.equals(exemples.get(i).getAttributes().get(j).getName()))
+
+				for(int k=0; k < litteral.size(); k++)
 				{
-					if(!litteral.valeur.equals(exemples.get(i).getValues().get(j)))
-						exemplesNonSatisfaisants.add(exemples.get(i));						
+					if(litteral.get(k).condition.equals(exemples.get(i).getAttributes().get(j).getName()))
+					{
+						if(!litteral.get(k).valeur.equals(exemples.get(i).getValues().get(j)))
+							toAdd = true;													
+					}
 				}
 			}
+			if(toAdd)
+				exemplesNonSatisfaisants.add(exemples.get(i));
 		}
 		return exemplesNonSatisfaisants;
 	}
