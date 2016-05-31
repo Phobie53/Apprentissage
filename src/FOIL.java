@@ -117,7 +117,7 @@ public class FOIL
 		if(p == 0)
 			return -999999999;
 		
-		return p * (Math.log(p / (p + n)) - Math.log(P / (P + N)));
+		return p * (Math.log((double)p / (double)(p + n)) - Math.log((double)P / (double)(P + N)));
 		
 	}
 	
