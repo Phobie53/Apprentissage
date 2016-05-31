@@ -24,7 +24,7 @@ public class Interface {
         final JFrame frame = new JFrame("Apprentissage Artificiel");
         final JPanel panel = new JPanel();
         final JButton btnFichier = new JButton("Fichier");
-        final JFileChooser fileChooser = new JFileChooser();
+        final JFileChooser fileChooser = new JFileChooser("data");
         final JTextField txtFichier = new JTextField();
         final JComboBox<String> combo = new JComboBox();
         final JTextPane txtRegles = new JTextPane();
