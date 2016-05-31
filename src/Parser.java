@@ -58,7 +58,13 @@ public class Parser
 			    	 valuesString = valuesString.replace("{", "");
 			    	 valuesString = valuesString.replace("}", "");
 			    	 
-			    	 String[] values = valuesString.split(", ");
+			    	 String[] values = valuesString.split(",");
+			    	 // On trim
+			    	 for(int i = 0; i < values.length; i++)
+			    	 {
+			    		 values[i] = values[i].trim();
+			    	 }
+			    		 
 			    	 for(int i =0; i < values.length; i++)
 			    	 {
 			    		 System.out.println("Valeur N°" + i + " " + values[i]);
