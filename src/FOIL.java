@@ -37,27 +37,41 @@ public class FOIL
 			ArrayList<Data> neg2 = neg;		// Neg2 <- Neg
 			ArrayList<Data> pos2 = pos;		// Pos2 <- Pos
 			
+			Fait litteralMax = null;
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
-				Fait litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
-				litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
-				System.out.println("Litteral max => " + litteralMax.toString());
-				conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
-				// Retirer de Neg2 tous les exemples qui ne satisfont pas L
-				neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
-				// Retirer de Pos2 tous les exemples qui ne satisfont pas L
-				pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
-				
+				litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
+				if(litteralMax != null)
+				{
+					litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
+					System.out.println("Litteral max => " + litteralMax.toString());
+					conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
+					// Retirer de Neg2 tous les exemples qui ne satisfont pas L
+					neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
+					// Retirer de Pos2 tous les exemples qui ne satisfont pas L
+					pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
+				}
+				else
+				{
+					neg2 = new ArrayList<Data>();
+					pos2 = new ArrayList<Data>();
+				}				
 			}	// Fin tant que
-			
-			// Ajouter à Règles la règle (C <- Conditions_Règle)
-			Regle newRegle = new Regle(conditions_regle, trueClass);
-			regles.add(newRegle);
-			// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
-			int taillePosDebut = pos.size();
-			pos = retirerExemplesSatisfaisant(pos, conditions_regle);
-			int taillePosFin = pos.size();
-			System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString() + " | " + (taillePosDebut-taillePosFin) + " exemple(s) couvert(s)");
+			if(litteralMax != null)
+			{
+				// Ajouter à Règles la règle (C <- Conditions_Règle)
+				Regle newRegle = new Regle(conditions_regle, trueClass);
+				regles.add(newRegle);
+				// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
+				int taillePosDebut = pos.size();
+				pos = retirerExemplesSatisfaisant(pos, conditions_regle);
+				int taillePosFin = pos.size();
+				System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString() + " | " + (taillePosDebut-taillePosFin) + " exemple(s) couvert(s)");
+			}
+			else
+			{
+				pos = new ArrayList<Data>();
+			}
 		} 	// Fin tant que		
 
 		this.regles = regles;	//Retourner l'ensemble Règles	
@@ -143,7 +157,7 @@ public class FOIL
 	
 	public Fait litteralMax(ArrayList<Fait> L, ArrayList<Data> pos, ArrayList<Data> neg)
 	{
-		int max = 0;
+		int max = -1;
 		double gainMax = -99999999;
 		double gainTemp = -99999999;
 		for(int i = 0; i < L.size(); i++)
@@ -153,8 +167,11 @@ public class FOIL
 			{
 				gainMax = gainTemp;
 				max = i;
+				System.out.println("Cond = " + L.get(i).toString() + " | Gain = " +  gainTemp);
 			}
 		}
+		if(max == -1)
+			return null;
 		return L.get(max);
 	}
 	
