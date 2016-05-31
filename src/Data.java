@@ -37,6 +37,22 @@ public class Data {
 		return this.attributes;
 	}
 	
+	public String getAttributeNameByIndex(int index)
+	{
+		return this.attributes.get(index).getName();
+	}
+	
+	public int getAttributeIndexByName(String name)
+	{
+		int index = 0;
+		for(int i = 0; i < this.attributes.size(); i++)
+		{
+			if(this.attributes.get(i).getName().equals(name))
+				index = i;
+		}
+		return index;
+	}
+	
 	public ArrayList<String> getValues()
 	{
 		return this.values;

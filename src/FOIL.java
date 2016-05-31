@@ -8,8 +8,27 @@ public class FOIL
 	ArrayList<Regle> regles;
 
 	// TODO: écrire le code correspondant aux commentaires orphelins
-	public FOIL(ArrayList<Data> pos, ArrayList<Data> neg, ArrayList<Fait> litteraux, Fait trueClass)
+	public FOIL(ArrayList<Data> data, ArrayList<Fait> litteraux, Fait trueClass)
 	{				
+		// Calcul de pos et neg
+		String nomDuFait = trueClass.getCondition();
+		String valeurDuFait = trueClass.getValeur();
+		ArrayList<Data> pos = new ArrayList<Data>();
+		ArrayList<Data> neg = new ArrayList<Data>();
+		for(int i = 0; i < data.size(); i++)
+		{
+			for(int j = 0; j < data.get(i).getValues().size(); j++)
+			{
+				if(data.get(i).getAttributeNameByIndex(j).equals(nomDuFait))
+				{
+					if(data.get(i).getValues().get(j).equals(valeurDuFait))
+						pos.add(data.get(i));
+					else
+						neg.add(data.get(i));
+				}
+			}
+		}
+		
 		ArrayList<Regle> regles = new ArrayList<Regle>();	// Règles <- vide	
 		int indiceBoucle = 1;
 		while(pos.size() != 0)	// Tant que Pos n'est pas vide

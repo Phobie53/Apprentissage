@@ -66,9 +66,9 @@ public class Interface {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
 					System.out.println("Sélection de : " + e.getItem());
 					String itemSelected = (String) e.getItem();
-					String[] tab = itemSelected.split("=");
+					String[] tab = itemSelected.split(" = ");
 					ArrayList<Fait> litt = new ArrayList<Fait>(p.litteraux);
-					f = new FOIL(p.pos, p.neg, litt, new Fait(tab[0],tab[1]));
+					f = new FOIL(p.data, litt, new Fait(tab[0],tab[1]));
 					txtRegles.setText("");
 					for (Regle rgl : f.getRegles()) {
 						txtRegles.setText(txtRegles.getText() + rgl + "\n");

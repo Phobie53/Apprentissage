@@ -8,7 +8,7 @@ public class main {
 		Parser p = new Parser("data/weather.nominal.arff");
 		System.out.println(p.pos.size() + " " + p.neg.size() + " " + p.litteraux.size());
 
-		FOIL f = new FOIL(p.pos, p.neg, p.litteraux, new Fait("play","yes"));
+		FOIL f = new FOIL(p.data, p.litteraux, new Fait("play","yes"));
 
 		for(int i = 0; i < f.regles.size(); i++)
 		{
