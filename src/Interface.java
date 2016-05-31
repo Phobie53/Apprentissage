@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -66,7 +67,8 @@ public class Interface {
 					System.out.println("Sélection de : " + e.getItem());
 					String itemSelected = (String) e.getItem();
 					String[] tab = itemSelected.split("=");
-					f = new FOIL(p.pos, p.neg, p.litteraux, new Fait(tab[0],tab[1]));
+					ArrayList<Fait> litt = new ArrayList<Fait>(p.litteraux);
+					f = new FOIL(p.pos, p.neg, litt, new Fait(tab[0],tab[1]));
 					txtRegles.setText("");
 					for (Regle rgl : f.getRegles()) {
 						txtRegles.setText(txtRegles.getText() + rgl + "\n");
