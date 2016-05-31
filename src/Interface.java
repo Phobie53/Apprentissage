@@ -52,6 +52,7 @@ public class Interface {
 	        		p = new Parser(file.getAbsolutePath());
 	        		
 	        		combo.setVisible(true);
+	        		combo.removeAllItems();
 	        		for (Attribute attr : p.attributes) {
 	        			for(String val : attr.getValues())
 	        			combo.addItem(attr.toString() + " = " + val);
@@ -68,7 +69,11 @@ public class Interface {
 					String itemSelected = (String) e.getItem();
 					String[] tab = itemSelected.split("=");
 					ArrayList<Fait> litt = new ArrayList<Fait>(p.litteraux);
-					f = new FOIL(p.data, litt, new Fait(tab[0].trim(),tab[1].trim()));
+					f = new FOIL(
+							p.data, 
+							litt, 
+							new Fait(tab[0].trim(), tab[1].trim())
+						);
 					txtRegles.setText("");
 					for (Regle rgl : f.getRegles()) {
 						txtRegles.setText(txtRegles.getText() + rgl + "\n");
