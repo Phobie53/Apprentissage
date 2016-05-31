@@ -45,7 +45,7 @@ public class main
 //	        Mise à jours de leurs attributs
 	        txtFichier.setPreferredSize(new Dimension(500, 26));
 	        combo.setPreferredSize(new Dimension(500, 26));
-	        txtRegles.setPreferredSize(new Dimension(700, 200));
+	        txtRegles.setPreferredSize(new Dimension(700, 300));
 	        FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF FILES", "arff", "arff");
 	        fileChooser.setFileFilter(filter);
 	        
@@ -89,7 +89,7 @@ public class main
 							);
 						txtRegles.setText("");
 						for (Regle rgl : f.getRegles()) {
-							txtRegles.setText(txtRegles.getText() + rgl + "\n");
+							txtRegles.setText(txtRegles.getText() + rgl + "\n\n");
 						}
 						if (f.getRegles().size() == 0) 
 						{
@@ -108,7 +108,7 @@ public class main
 	        
 //	        Ajout du panel dans la frame
 	        frame.getContentPane().add(panel);
-	        frame.setSize(860, 350);
+	        frame.setSize(860, 450);
 	        frame.setLocationRelativeTo(null);
 	        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	        
