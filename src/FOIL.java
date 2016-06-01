@@ -56,9 +56,18 @@ public class FOIL
 			int taillePosDebut = pos.size();
 			pos = retirerExemplesSatisfaisant(pos, conditions_regle);
 			int taillePosFin = pos.size();
-			newRegle.setNombreExemplesCouverts(taillePosDebut-taillePosFin);
-			regles.add(newRegle);
-			System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString());
+			int nombreExemplesCouverts = taillePosDebut-taillePosFin;
+			if(nombreExemplesCouverts == 0)
+			{
+				pos = new ArrayList<Data>();
+				neg2 = new ArrayList<Data>();
+			}
+			else
+			{
+				newRegle.setNombreExemplesCouverts(nombreExemplesCouverts);
+				regles.add(newRegle);
+				System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString());	
+			}
 		} 	// Fin tant que		
 
 		this.regles = regles;	//Retourner l'ensemble Règles	

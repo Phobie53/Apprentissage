@@ -93,7 +93,7 @@ public class main
 						}
 						if (f.getRegles().size() == 0) 
 						{
-							txtRegles.setText("Aucune règle trouvée");
+							txtRegles.setText("Aucune règle trouvée.\nUn conflit a été détecté");
 						}
 						f = null;
 					}
