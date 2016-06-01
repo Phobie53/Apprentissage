@@ -8,7 +8,7 @@ public class FOIL
 	ArrayList<Regle> regles;
 
 	// TODO: écrire le code correspondant aux commentaires orphelins
-	public FOIL(ArrayList<Data> data, ArrayList<Fait> litteraux, Fait trueClass)
+	public FOIL(ArrayList<Data> data, ArrayList<Fait> litterauxToCopy, Fait trueClass)
 	{				
 		// Calcul de pos et neg
 		String nomDuFait = trueClass.getCondition();
@@ -34,14 +34,15 @@ public class FOIL
 		while(pos.size() != 0)	// Tant que Pos n'est pas vide
 		{
 			ArrayList<Fait> conditions_regle = new ArrayList<Fait>();	// Conditions_Règle <- vide
-			ArrayList<Data> neg2 = neg;		// Neg2 <- Neg
-			ArrayList<Data> pos2 = pos;		// Pos2 <- Pos
+			ArrayList<Data> neg2 = new ArrayList<Data>(neg);		// Neg2 <- Neg
+			ArrayList<Data> pos2 = new ArrayList<Data>(pos);		// Pos2 <- Pos
+			ArrayList<Fait> litteraux = new ArrayList<Fait>(litterauxToCopy);		// Pos2 <- Pos
 			
 			Fait litteralMax = null;
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
 				litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
-				if(litteralMax != null)
+				//if(litteralMax != null)
 				{
 					litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
 					//System.out.println("Litteral max => " + litteralMax.toString());
@@ -50,14 +51,14 @@ public class FOIL
 					neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
 					// Retirer de Pos2 tous les exemples qui ne satisfont pas L
 					pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
-				}
+				}/*
 				else
 				{
 					neg2 = new ArrayList<Data>();
 					pos2 = new ArrayList<Data>();
-				}				
+				}		*/		
 			}	// Fin tant que
-			if(litteralMax != null)
+			//if(litteralMax != null)
 			{
 				// Ajouter à Règles la règle (C <- Conditions_Règle)
 				Regle newRegle = new Regle(conditions_regle, trueClass);				
@@ -68,11 +69,11 @@ public class FOIL
 				newRegle.setNombreExemplesCouverts(taillePosDebut-taillePosFin);
 				regles.add(newRegle);
 				System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString());
-			}
+			}/*
 			else
 			{
 				pos = new ArrayList<Data>();
-			}
+			}*/
 		} 	// Fin tant que		
 
 		this.regles = regles;	//Retourner l'ensemble Règles	
@@ -158,7 +159,7 @@ public class FOIL
 	
 	public Fait litteralMax(ArrayList<Fait> L, ArrayList<Data> pos, ArrayList<Data> neg)
 	{
-		int max = -1;
+		int max = 0;
 		double gainMax = -99999999;
 		double gainTemp = -99999999;
 		for(int i = 0; i < L.size(); i++)
