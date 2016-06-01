@@ -42,38 +42,23 @@ public class FOIL
 			while(neg2.size() != 0)	// Tant que Neg2 n'est pas vide
 			{
 				litteralMax = litteralMax(litteraux, pos2, neg2);	// Choisir le littéral L qui maximise Gain(L, Pos2, Neg2)
-				//if(litteralMax != null)
-				{
-					litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
-					//System.out.println("Litteral max => " + litteralMax.toString());
-					conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
-					// Retirer de Neg2 tous les exemples qui ne satisfont pas L
-					neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
-					// Retirer de Pos2 tous les exemples qui ne satisfont pas L
-					pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
-				}/*
-				else
-				{
-					neg2 = new ArrayList<Data>();
-					pos2 = new ArrayList<Data>();
-				}		*/		
+				litteraux.remove(litteralMax); // Si le litteral est windy, retirer tout les fait windy =...
+				//System.out.println("Litteral max => " + litteralMax.toString());
+				conditions_regle.add(litteralMax);	// Ajouter L à Conditions_Règle
+				// Retirer de Neg2 tous les exemples qui ne satisfont pas L
+				neg2 = retirerExemplesNonSatisfaisant(neg2, litteralMax);
+				// Retirer de Pos2 tous les exemples qui ne satisfont pas L
+				pos2 = retirerExemplesNonSatisfaisant(pos2, litteralMax);
 			}	// Fin tant que
-			//if(litteralMax != null)
-			{
-				// Ajouter à Règles la règle (C <- Conditions_Règle)
-				Regle newRegle = new Regle(conditions_regle, trueClass);				
-				// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
-				int taillePosDebut = pos.size();
-				pos = retirerExemplesSatisfaisant(pos, conditions_regle);
-				int taillePosFin = pos.size();
-				newRegle.setNombreExemplesCouverts(taillePosDebut-taillePosFin);
-				regles.add(newRegle);
-				System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString());
-			}/*
-			else
-			{
-				pos = new ArrayList<Data>();
-			}*/
+			// Ajouter à Règles la règle (C <- Conditions_Règle)
+			Regle newRegle = new Regle(conditions_regle, trueClass);				
+			// Retirer de Pos tous les exemples qui satisfont Conditions_Règle
+			int taillePosDebut = pos.size();
+			pos = retirerExemplesSatisfaisant(pos, conditions_regle);
+			int taillePosFin = pos.size();
+			newRegle.setNombreExemplesCouverts(taillePosDebut-taillePosFin);
+			regles.add(newRegle);
+			System.out.println("Règle N°" + indiceBoucle++ + ": "+ newRegle.toString());
 		} 	// Fin tant que		
 
 		this.regles = regles;	//Retourner l'ensemble Règles	
@@ -172,8 +157,6 @@ public class FOIL
 				//System.out.println("Cond = " + L.get(i).toString() + " | Gain = " +  gainTemp);
 			}
 		}
-		if(max == -1)
-			return null;
 		return L.get(max);
 	}
 	
